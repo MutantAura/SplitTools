@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace Balanced
 {
-    class Splits
+    public class Splits
     {
         public string GameName;
         public string CategoryName;

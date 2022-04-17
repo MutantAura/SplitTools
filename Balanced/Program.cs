@@ -4,29 +4,45 @@ using System.Xml;
 
 namespace Balanced
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            // Read the raw directory of a drag and dropped lss file
-            Console.WriteLine("Drag and Drop your .lss split file here then press ENTER: ");
-            string splitDirRaw = Console.ReadLine();
+            // Create program instance
+            Program _splits = new Program();
 
-            // Trim any " or * from the string and call Load
-            string splitDir = splitDirRaw.Trim(new char[] { '"', '*' });
+            bool success = false;
+            while (!success)
+            {
+                // Read the raw directory of a drag and dropped lss file
+                Console.WriteLine("Drag and Drop your .lss split file here then press ENTER: ");
+                try
+                {
+                    string splitDirRaw = Console.ReadLine();
 
-            Splits PB = Load(splitDir);
-            Console.WriteLine($"Game Name: {PB.GameName} {"\n"}" +
-                              $"Category Name: {PB.CategoryName} {"\n"}" +
-                              $"Variable: {PB.CategoryVariable} {"\n"}" +
-                              $"Attempt Count: {PB.AttemptCount} {"\n"}" +
-                              $"Personal Best: {PB.PersonalBest} {"\n"}" +
-                              $"Sum of Best: {PB.SumOfBest}");
+                    // Trim any " or * from the string and call Load
+                    string splitDir = splitDirRaw.Trim(new char[] { '"', '*' });
 
-            Console.ReadLine();
+                    Splits PB = _splits.Load(splitDir);
+                    Console.WriteLine($"Game Name: {PB.GameName} {"\n"}" +
+                                      $"Category Name: {PB.CategoryName} {"\n"}" +
+                                      $"Variable: {PB.CategoryVariable} {"\n"}" +
+                                      $"Attempt Count: {PB.AttemptCount} {"\n"}" +
+                                      $"Personal Best: {PB.PersonalBest} {"\n"}" +
+                                      $"Sum of Best: {PB.SumOfBest}");
+
+                    Console.ReadLine();
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An exception has occured when parsing this file. {"\n"} {ex.ToString()}");
+                }
+            }
+            
         }
 
-        public static Splits Load(string Location)
+        public Splits Load(string Location)
         {
             // Open and load the split file as XML
             XmlDocument splitXML = new XmlDocument();
